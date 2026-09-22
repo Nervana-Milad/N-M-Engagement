@@ -217,7 +217,6 @@
   /* ---------- Countdown ---------- */
   .countdown-section{
     background:var(--bg-1);
-/*    text-align:center;*/
   }
   .countdown{
     display:flex;
@@ -324,7 +323,6 @@
   /* ---------- Dress code ---------- */
   .dress{
     background:var(--bg-1);
-/*    text-align:center;*/
   }
   .dress-swatches{
     display:flex;
