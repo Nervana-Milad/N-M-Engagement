@@ -2,7 +2,7 @@
   const WEDDING_DATE = "2026-11-13T19:00:00"; // local time of the venue
 const VENUE_NAME = "Elsaraya ُngagement Hall";
 const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/Hr8UeSzXzjcAG1DM8"; // replace with your real share link
-const COUPLE_EMAIL = "nervanamilad143@gmail.com"; // where RSVPs get sent
+const COUPLE_EMAIL = "nardinmilad83@gmail.com"; // where RSVPs get sent
   const HERO_PHOTO = "images/hero.jpg"; // background photo behind the names — leave "" for no photo
   const ENVELOPE_PHOTO = "images/envelope-bg.jpg"; // large background photo on the opening screen — leave "" for no photo
   // ---------------------
