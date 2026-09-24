@@ -1,14 +1,13 @@
   // ---- EDIT THESE ----
   const WEDDING_DATE = "2026-11-13T19:00:00"; // local time of the venue
-const VENUE_NAME = "Elsaraya ُngagement Hall";
+const VENUE_NAME = "Elsaraya Engagement Hall";
 const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/Hr8UeSzXzjcAG1DM8"; // replace with your real share link
 const COUPLE_EMAIL = "nardinmilad83@gmail.com"; // where RSVPs get sent
-  const HERO_PHOTO = "images/hero.jpg"; // background photo behind the names — leave "" for no photo
-  const ENVELOPE_PHOTO = "images/envelope-bg.jpg"; // large background photo on the opening screen — leave "" for no photo
+  // The hero background / first "Together" photo, and the opening screen / second "Together"
+  // photo, now swap automatically based on screen width — see the <picture> tags in index.html.
+  // Nothing to set here for them.
   // ---------------------
 
-  if (HERO_PHOTO) { document.getElementById('hero-photo').src = HERO_PHOTO; }
-  if (ENVELOPE_PHOTO) { document.getElementById('envelope-photo').src = ENVELOPE_PHOTO; }
   document.getElementById('map-link').href = GOOGLE_MAPS_URL;
 
   // Add-to-calendar (Google Calendar link, opens in new tab)
@@ -82,6 +81,16 @@ const COUPLE_EMAIL = "nardinmilad83@gmail.com"; // where RSVPs get sent
         screen.offsetHeight; // force a reflow so the fade-in transition actually plays
         screen.classList.remove('closing');
       }, scrollDelay);
+    });
+  })();
+
+  // Scroll-down cue: clicking it jumps straight to the next section
+  (function(){
+    const cue = document.getElementById('hero-scroll-cue');
+    if (!cue) return;
+    cue.addEventListener('click', function(){
+      const next = document.querySelector('.story');
+      if (next) next.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   })();
 

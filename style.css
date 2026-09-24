@@ -42,6 +42,7 @@
   }
   a{color:inherit;}
   img{max-width:100%;display:block;}
+  picture{display:contents;}
   .wrap{
     max-width:640px;
     margin:0 auto;
@@ -130,18 +131,32 @@
     position:relative;
     z-index:1;
   }
-  .hero-scroll{
-    margin-top:64px;
-    width:1px;
-    height:46px;
-    background:linear-gradient(var(--gold), transparent);
+  .hero-scroll-cue{
+    margin-top:52px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:10px;
     position:relative;
     z-index:1;
-    animation:pulse 2.2s ease-in-out infinite;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:10px;
   }
-  @keyframes pulse{
-    0%,100%{opacity:0.35;}
-    50%{opacity:1;}
+  .scroll-text{
+    font-family:'Work Sans',sans-serif;
+    font-size:0.72rem;
+    letter-spacing:0.16em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+  }
+  .scroll-chevron path{
+    stroke:var(--gold);
+  }
+  @keyframes bounce-hint{
+    0%,100%{transform:translateY(0);opacity:0.7;}
+    50%{transform:translateY(10px);opacity:1;}
   }
 
   /* ---------- Photo frames ---------- */
@@ -299,26 +314,46 @@
     font-size:1.3rem;
     text-align:right;
   }
+  .detail-actions{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+    gap:14px;
+    margin-top:28px;
+  }
   .map-link{
-    display:inline-block;
-    margin-top:28px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 26px;
+    background:linear-gradient(90deg,var(--teal),var(--gold));
+    color:var(--bg-0);
+    font-family:'Work Sans',sans-serif;
+    font-weight:600;
     font-size:0.9rem;
-    color:var(--teal);
+    letter-spacing:0.01em;
     text-decoration:none;
-    border-bottom:1px solid rgba(45,212,191,0.4);
-    padding-bottom:2px;
+    border-radius:30px;
+    box-shadow:0 12px 26px -10px rgba(45,212,191,0.5);
+    transition:filter .2s ease, transform .2s ease;
   }
-  .map-link:hover{border-color:var(--teal);}
+  .map-link:hover{filter:brightness(1.08);transform:translateY(-1px);}
   .cal-link{
-    display:inline-block;
-    margin-top:28px;
-    margin-left:20px;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:14px 26px;
+    background:transparent;
+    color:var(--cream);
+    font-family:'Work Sans',sans-serif;
+    font-weight:500;
     font-size:0.9rem;
-    color:var(--gold);
     text-decoration:none;
-    border-bottom:1px solid rgba(244,185,66,0.4);
-    padding-bottom:2px;
+    border:1px solid rgba(244,185,66,0.4);
+    border-radius:30px;
+    transition:border-color .2s ease, color .2s ease;
   }
+  .cal-link:hover{border-color:var(--gold);color:var(--gold);}
 
   /* ---------- Dress code ---------- */
   .dress{
@@ -535,17 +570,20 @@
   }
 
   /* ---------- Hero entrance (triggered once the envelope opens) ---------- */
-  .hero-eyebrow, .hero-names, .hero-date, .hero-tag, .hero-scroll{
+  .hero-eyebrow, .hero-names, .hero-date, .hero-tag{
     opacity:0;
   }
-  body.opened .hero-eyebrow, body.opened .hero-names, body.opened .hero-date, body.opened .hero-tag, body.opened .hero-scroll{
+  .hero-scroll-cue{opacity:0;}
+  body.opened .hero-eyebrow, body.opened .hero-names, body.opened .hero-date, body.opened .hero-tag{
     animation:rise .9s ease forwards;
+  }
+  body.opened .hero-scroll-cue{
+    animation:rise .9s ease forwards, bounce-hint 1.8s ease-in-out .9s infinite;
   }
   body.opened .hero-eyebrow{animation-delay:.1s;}
   body.opened .hero-names{animation-delay:.25s;}
   body.opened .hero-date{animation-delay:.5s;}
   body.opened .hero-tag{animation-delay:.65s;}
-  body.opened .hero-scroll{animation-delay:.9s;}
   @keyframes rise{
     from{opacity:0;transform:translateY(18px);}
     to{opacity:1;transform:translateY(0);}
@@ -611,10 +649,16 @@
 
 .envelope-desc {
     font-family: 'Cormorant Garamond',serif;
+    font-weight:400;
+    font-style:italic;
+    font-size:0.95rem;
+    letter-spacing:0.08em;
+    color:var(--cream-dim);
+    margin-top:6px;
 }
   .envelope-card{
     position:relative;
-    z-index:1;
+/*    z-index:1;*/
     width:min(420px, 88vw);
     background:rgba(28,21,51,0);
     -webkit-backdrop-filter:blur(10px);
@@ -672,7 +716,7 @@
   .music-toggle:hover{transform:scale(1.07);}
 
   @media (prefers-reduced-motion: reduce){
-    .hero-scroll{animation:none;opacity:1;}
+    .hero-scroll-cue{animation:none;opacity:1;}
     html{scroll-behavior:auto;}
     .reveal, .hero-eyebrow, .hero-names, .hero-date, .hero-tag{
       animation:none !important;
