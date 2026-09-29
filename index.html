@@ -75,7 +75,6 @@
     <h2 class="section-title">Our story</h2>
     <div class="divider"></div>
     <p>What started as a quiet conversation slowly became the best part of both our days. Somewhere between long calls, shared playlists, and a hundred small moments, we found in each other a person worth building a whole life with.</p>
-    <p>Micheal always says he knew early on. Nardin took a little more convincing — but once she did, there was no question left in either of our minds. Every ordinary day since has felt a little less ordinary.</p>
     <p>Now we can't wait to celebrate this new beginning with the people who mean the most to us. Thank you for being part of our story — this next chapter means so much more with you in it.</p>
   </div>
 </section>
@@ -97,9 +96,9 @@
       <div>
         <div class="photo-frame tilt-right">
           <picture>
-            <source media="(max-width: 768px)" srcset="images/envelope-portrait.jpg">
+            <source media="(max-width: 768px)" srcset="images/envelope-landscape.jpg">
             <source media="(min-width: 769px)" srcset="images/envelope-portrait.jpg">
-            <img src="images/envelope-portrait.jpg" alt="Micheal & Nardin" onerror="this.parentElement.parentElement.querySelector('.photo-caption').textContent='Replace images/envelope-portrait.jpg and images/envelope-portrait.jpg'; this.style.background='linear-gradient(135deg, rgba(45,212,191,0.25), rgba(244,185,66,0.15))'; this.style.minHeight='160px';">
+            <img src="images/envelope-portrait.jpg" alt="Micheal & Nardin" onerror="this.parentElement.parentElement.querySelector('.photo-caption').textContent='Replace images/envelope-landscape.jpg and images/envelope-portrait.jpg'; this.style.background='linear-gradient(135deg, rgba(45,212,191,0.25), rgba(244,185,66,0.15))'; this.style.minHeight='160px';">
           </picture>
         </div>
       </div>
@@ -199,7 +198,7 @@
       </div>
       <button type="submit">Send RSVP</button>
     </form>
-    <div class="rsvp-confirm" id="rsvp-confirm">Thank you! Your RSVP has been prepared — please send the email that just opened to confirm.</div>
+    <div class="rsvp-confirm" id="rsvp-confirm">Thank you!</div>
   </div>
 </section>
 
@@ -220,6 +219,7 @@
   </div>
 </section>
 
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 <script src="script.js"></script>
 
 </body>

@@ -2,13 +2,24 @@
   const WEDDING_DATE = "2026-11-13T19:00:00"; // local time of the venue
 const VENUE_NAME = "Elsaraya Engagement Hall";
 const GOOGLE_MAPS_URL = "https://maps.app.goo.gl/Hr8UeSzXzjcAG1DM8"; // replace with your real share link
-const COUPLE_EMAIL = "nardinmilad83@gmail.com"; // where RSVPs get sent
+const COUPLE_EMAIL = "nardinmilad83@gmail.com"; // used only if EmailJS isn't set up yet (see below)
+const COUPLE_EMAIL_2 = "michaelawnyibrahim@gmail.com"; // used only if EmailJS isn't set up yet (see below)
+// EmailJS: fill these in to send a designed HTML email instead of a plain mailto.
+// Leave any of the three empty and the form falls back to mailto automatically.
+const EMAILJS_SERVICE_ID = "service_gbagu9x";
+const EMAILJS_TEMPLATE_ID = "template_fnmkn2b";
+const EMAILJS_PUBLIC_KEY = "a4WuTPejzWhrtYzQ8";
   // The hero background / first "Together" photo, and the opening screen / second "Together"
   // photo, now swap automatically based on screen width — see the <picture> tags in index.html.
   // Nothing to set here for them.
   // ---------------------
 
   document.getElementById('map-link').href = GOOGLE_MAPS_URL;
+
+  const emailjsReady = EMAILJS_SERVICE_ID && EMAILJS_TEMPLATE_ID && EMAILJS_PUBLIC_KEY;
+  if (emailjsReady && window.emailjs) {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
 
   // Add-to-calendar (Google Calendar link, opens in new tab)
   (function(){
@@ -147,21 +158,45 @@ const COUPLE_EMAIL = "nardinmilad83@gmail.com"; // where RSVPs get sent
     }
   })();
 
-  // RSVP -> mailto (no backend needed). Replace with Formspree/Worker later.
+  // RSVP -> EmailJS (designed HTML email) when configured above, otherwise falls back to mailto.
   document.getElementById('rsvp-form').addEventListener('submit', function(e){
     e.preventDefault();
+    const submitBtn = e.target.querySelector('button[type="submit"]');
     const name = document.getElementById('name').value.trim();
     const guests = document.getElementById('guests').value;
     const attending = document.querySelector('input[name="attending"]:checked').value;
-    const message = document.getElementById('message').value.trim();
+    const message = document.getElementById('message').value.trim() || '(none)';
 
-    const subject = encodeURIComponent(`RSVP: ${name} (${attending})`);
-    const body = encodeURIComponent(
-      `Name: ${name}\nGuests: ${guests}\nAttending: ${attending}\nMessage: ${message || '(none)'}`
-    );
-    window.location.href = `mailto:${COUPLE_EMAIL}?subject=${subject}&body=${body}`;
+    function showConfirm(viaEmailJS){
+      const confirm = document.getElementById('rsvp-confirm');
+      confirm.textContent = viaEmailJS
+        ? 'Thank you! Your RSVP has been sent.'
+        : 'Thank you! Your RSVP has been prepared — please send the email that just opened to confirm.';
+      confirm.style.display = 'block';
+      confirm.scrollIntoView({behavior:'smooth', block:'nearest'});
+    }
 
-    const confirm = document.getElementById('rsvp-confirm');
-    confirm.style.display = 'block';
-    confirm.scrollIntoView({behavior:'smooth', block:'nearest'});
+    function sendViaMailto(){
+      const subject = encodeURIComponent(`RSVP: ${name} (${attending})`);
+      const body = encodeURIComponent(`Name: ${name}\nGuests: ${guests}\nAttending: ${attending}\nMessage: ${message}`);
+      const recipients = COUPLE_EMAIL_2 ? `${COUPLE_EMAIL},${COUPLE_EMAIL_2}` : COUPLE_EMAIL;
+      window.location.href = `mailto:${recipients}?subject=${subject}&body=${body}`;
+      showConfirm(false);
+    }
+
+    if (emailjsReady && window.emailjs) {
+      if (submitBtn) { submitBtn.disabled = true; submitBtn.textContent = 'Sending…'; }
+      emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, { name, guests, attending, message })
+        .then(function(){
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send RSVP'; }
+          showConfirm(true);
+        })
+        .catch(function(err){
+          console.error('EmailJS failed, falling back to mailto:', err);
+          if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Send RSVP'; }
+          sendViaMailto();
+        });
+    } else {
+      sendViaMailto();
+    }
   });
