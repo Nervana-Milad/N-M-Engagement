@@ -460,10 +460,9 @@
     padding:56px 0 90px;
   }
   .closing-seal{
-    width:64px;height:64px;
+    width:80px;height:80px;
     margin:0 auto 20px;
     border-radius:50%;
-    background:linear-gradient(135deg,var(--pink),var(--gold));
     display:flex;
     align-items:center;
     justify-content:center;
@@ -471,7 +470,6 @@
     font-weight:600;
     font-size:1.1rem;
     color:var(--bg-0);
-    box-shadow:0 14px 30px -10px rgba(255,93,143,0.5);
   }
   .closing-line{
     font-family:'Cormorant Garamond',serif;
